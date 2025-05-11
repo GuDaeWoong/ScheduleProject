@@ -43,9 +43,9 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         parameters.put("contents", schedule.getContents());
         LocalDateTime now = LocalDateTime.now();
         //포멧 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = now.format(formatter);
-        parameters.put("updatedate", formattedDate);
+        parameters.put("updatedDate", formattedDate);
 
 
         // 저장 후 생성된 key값을 Number 타입으로 반환하는 메서드
@@ -61,7 +61,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
 
     @Override
-    public Optional<Schedule> findMemoById(Long id) {
+    public Optional<Schedule> findScheduleById(Long id) {
         List<Schedule> result =  jdbcTemplate.query("select * from schedule where id = ? ",scheduleRowMapperV2());
         return result.stream().findAny();//Optional 형태로 변환
     }
@@ -69,7 +69,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
 
     @Override
-    public Schedule findMemoByIdOrElseThrow(Long id) {
+    public Schedule findScheduleByIdOrElseThrow(Long id) {
         List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ?", scheduleRowMapperV2(), id);
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
     }
@@ -85,7 +85,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                         rs.getString("password"),
                         rs.getString("title"),
                         rs.getString("contents"),
-                        rs.getString("updatedate")
+                        rs.getString("updatedDate")
                 );
             }
         };
@@ -102,7 +102,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                         rs.getString("password"),
                         rs.getString("title"),
                         rs.getString("contents"),
-                        rs.getString("updatedate")
+                        rs.getString("updatedDate")
                 );
             }
         };

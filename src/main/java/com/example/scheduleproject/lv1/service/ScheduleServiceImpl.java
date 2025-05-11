@@ -39,7 +39,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
-        Schedule schedule = scheduleRepository.findMemoByIdOrElseThrow(id);
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         return new ScheduleResponseDto(schedule);
     }
 

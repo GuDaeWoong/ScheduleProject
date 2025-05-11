@@ -38,19 +38,6 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
         return new ResponseEntity<>(scheduleService.findScheduleById(id),HttpStatus.OK);
     }
-//    // 조회 모두 조회
-//    @GetMapping("/{eventId}")
-//    public findScheduleById()
-//
-//
-//    // 책 목록 조회
-//    @GetMapping()
-//
-//    //책 수정
-//    @PutMapping("/{eventId}")
-//
-//    //책 삭제
-//    @DeleteMapping("/{eventId}")
 
 
 }
