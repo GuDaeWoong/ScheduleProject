@@ -43,7 +43,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         parameters.put("contents", schedule.getContents());
         LocalDateTime now = LocalDateTime.now();
         //포멧 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = now.format(formatter);
         parameters.put("updatedDate", formattedDate);
 
@@ -66,14 +66,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return result.stream().findAny();//Optional 형태로 변환
     }
 
-
-
     @Override
-    public Schedule findScheduleByIdOrElseThrow(Long id) {
-        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ?", scheduleRowMapperV2(), id);
-        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
+    public Schedule findScheduleByIdOrElseThrow(String creator) {
+        List<Schedule> result = jdbcTemplate.query("select * from schedule where creator = ?", scheduleRowMapperV2(), creator);
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + creator));
     }
-
 
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
         return new RowMapper<ScheduleResponseDto>() {

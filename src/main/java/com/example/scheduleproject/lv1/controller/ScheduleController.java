@@ -33,10 +33,10 @@ public class ScheduleController {
     }
 
     // 선택 일정 조회
-    // 식별자(ID)를 사용하여 조회
-    @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
-        return new ResponseEntity<>(scheduleService.findScheduleById(id),HttpStatus.OK);
+    // 작성(creator)를 사용하여 조회
+    @GetMapping("/{creator}")
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable String creator) {
+        return new ResponseEntity<>(scheduleService.findScheduleById(creator),HttpStatus.OK);
     }
 
 

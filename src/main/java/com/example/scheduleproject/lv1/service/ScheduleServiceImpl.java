@@ -38,8 +38,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public ScheduleResponseDto findScheduleById(Long id) {
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+    public ScheduleResponseDto findScheduleById(String creator) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(creator);
         return new ScheduleResponseDto(schedule);
     }
 

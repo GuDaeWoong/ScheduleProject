@@ -14,5 +14,5 @@ public interface ScheduleRepository {
 
     Optional<Schedule> findScheduleById(Long id);
 
-    Schedule findScheduleByIdOrElseThrow(Long id);
+    Schedule findScheduleByIdOrElseThrow(String creator);
 }
