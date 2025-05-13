@@ -42,7 +42,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findMemoByIdOrElseThrow(id);
-
         return new ScheduleResponseDto(schedule);
     }
 
@@ -58,6 +57,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (title == null || contents == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title and content are required values.");
         }
+
         int updateRow = scheduleRepository.updateSchedule(id,title,contents);
         //변화된게 없으면 0
         if (updateRow  == 0) {

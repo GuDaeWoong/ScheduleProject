@@ -53,8 +53,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return new ScheduleResponseDto(key.longValue(), schedule.getAuthorId(), schedule.getTitle(), schedule.getContents(), now, nowDate);
     }
 
-
-
     @Override
     public List<ScheduleResponseDto> findAllSchedule(String authorId, String updatedDate, int page, int size) {
         int offset = page * size;

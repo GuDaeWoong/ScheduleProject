@@ -4,12 +4,17 @@ package com.example.scheduleproject.lv4.controller;
 import com.example.scheduleproject.lv4.dto.ScheduleRequestDto;
 import com.example.scheduleproject.lv4.dto.ScheduleResponseDto;
 import com.example.scheduleproject.lv4.service.ScheduleService;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController // @Controller + @ResponseBody
 @RequiredArgsConstructor
@@ -20,9 +25,12 @@ public class ScheduleController {
 
     // 글 작성하기
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(@Valid @RequestBody ScheduleRequestDto dto, BindingResult bindingResult) {
+        handleValidationErrors(bindingResult);
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
     }
+
+
 
     // 전체 일정 조회 API
     @GetMapping
@@ -46,7 +54,8 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
-            @RequestBody ScheduleRequestDto dto) {
+            @Valid @RequestBody ScheduleRequestDto dto, BindingResult bindingResult ) {
+        handleValidationErrors(bindingResult);
 
         return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(),dto.getContents(),dto.getPassword()), HttpStatus.OK);
     }
@@ -58,6 +67,12 @@ public class ScheduleController {
     ) {
         scheduleService.deleteSchedule(id,password);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void handleValidationErrors(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException( "유효성 검사 실패");
+        }
     }
 
 }

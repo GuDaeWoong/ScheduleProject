@@ -3,9 +3,12 @@ package com.example.scheduleproject.lv4.controller;
 import com.example.scheduleproject.lv4.dto.AuthorRequestDto;
 import com.example.scheduleproject.lv4.dto.AuthorResponseDto;
 import com.example.scheduleproject.lv4.service.AuthorService;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,7 +23,8 @@ public class AuthorController {
 
     //회원가입
     @PostMapping
-    private ResponseEntity<AuthorResponseDto> createId(@RequestBody AuthorRequestDto dto) {
+    private ResponseEntity<AuthorResponseDto> createId(@Valid @RequestBody AuthorRequestDto dto, BindingResult bindingResult) {
+        handleValidationErrors(bindingResult);
         return new ResponseEntity<>(authorService.saveId(dto), HttpStatus.CREATED);
     }
 
@@ -53,5 +57,11 @@ public class AuthorController {
         authorService.deleteAuthor(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    private void handleValidationErrors(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException("유효성 검사 실패");
+        }
     }
 }
