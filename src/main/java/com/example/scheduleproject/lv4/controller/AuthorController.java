@@ -35,7 +35,7 @@ public class AuthorController {
     // 회원 조회
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponseDto> findAuthorById(@PathVariable Long id) {
-        return new ResponseEntity<>(authorService.findAuthorById(id),HttpStatus.OK);
+        return new ResponseEntity<>(authorService.findAuthorById(id), HttpStatus.OK);
     }
 
     // 회원 탈퇴
@@ -43,9 +43,14 @@ public class AuthorController {
     public ResponseEntity<Void> deleteAuthor(
             @PathVariable Long id,
             @RequestParam String password) {
-    AuthorResponseDto searchId = authorService.findAuthorById(id);
+        AuthorResponseDto searchId = authorService.findAuthorById(id);
+
+        if (searchId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author not found");
+        }
+
         if (!searchId.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Password is not the same");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is not the same");
         }
         authorService.deleteAuthor(id);
         return new ResponseEntity<>(HttpStatus.OK);
