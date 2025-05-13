@@ -4,22 +4,19 @@ package com.example.scheduleproject.lv4.controller;
 import com.example.scheduleproject.lv4.dto.ScheduleRequestDto;
 import com.example.scheduleproject.lv4.dto.ScheduleResponseDto;
 import com.example.scheduleproject.lv4.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController // @Controller + @ResponseBody
+@RequiredArgsConstructor
 @RequestMapping("/scheduleLv3")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-
-    public ScheduleController(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
-    }
 
     // 글 작성하기
     @PostMapping
@@ -49,10 +46,9 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
-            @RequestBody ScheduleRequestDto dto,
-            @RequestParam String password) {
+            @RequestBody ScheduleRequestDto dto) {
 
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(),dto.getContents(),password), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(),dto.getContents(),dto.getPassword()), HttpStatus.OK);
     }
 
     // 일정 삭제
@@ -63,12 +59,5 @@ public class ScheduleController {
         scheduleService.deleteSchedule(id,password);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
-
-
-
 
 }

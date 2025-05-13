@@ -3,6 +3,7 @@ package com.example.scheduleproject.lv4.controller;
 import com.example.scheduleproject.lv4.dto.AuthorRequestDto;
 import com.example.scheduleproject.lv4.dto.AuthorResponseDto;
 import com.example.scheduleproject.lv4.service.AuthorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController // @Controller + @ResponseBody
+@RequiredArgsConstructor
 @RequestMapping("/author")
 public class AuthorController {
 
     private final AuthorService authorService;
-
-    public AuthorController(AuthorService authorService) {
-        this.authorService = authorService;
-    }
 
     //회원가입
     @PostMapping

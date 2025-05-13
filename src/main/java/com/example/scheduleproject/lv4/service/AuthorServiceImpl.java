@@ -4,6 +4,7 @@ import com.example.scheduleproject.lv4.dto.AuthorRequestDto;
 import com.example.scheduleproject.lv4.dto.AuthorResponseDto;
 import com.example.scheduleproject.lv4.entity.Author;
 import com.example.scheduleproject.lv4.repository.AuthorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,13 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
-
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
 
     @Override
     public AuthorResponseDto saveId(AuthorRequestDto dto) {
