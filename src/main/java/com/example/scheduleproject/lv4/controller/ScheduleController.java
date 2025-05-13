@@ -38,14 +38,6 @@ public class ScheduleController {
     ) {
         return scheduleService.findAllSchedule(authorId, updatedDate, page, size);
     }
-//    // 전체 일정 조회 API
-//    @GetMapping
-//    public List<ScheduleResponseDto> findAllSchedule(
-//            @RequestParam(name = "authorId", required = false) String authorId,
-//            @RequestParam(name = "updatedDate", required = false) String updatedDate
-//    ) {
-//        return scheduleService.findAllSchedule(authorId, updatedDate);
-//    }
 
     //일정 id 기준 조회
     @GetMapping("/{id}")

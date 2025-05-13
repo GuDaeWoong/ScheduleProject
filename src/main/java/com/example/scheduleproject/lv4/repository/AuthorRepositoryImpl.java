@@ -70,6 +70,9 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public int deleteAuthor(Long id) {
+        // 1. 해당 authorId를 가진 schedulelv3 데이터 먼저 삭제
+        jdbcTemplate.update("delete from schedulelv3 where authorId=?", id);
+
         return jdbcTemplate.update("delete from author where id=?", id);
     }
 
