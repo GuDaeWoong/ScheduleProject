@@ -71,7 +71,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void deleteSchedule(Long id, String password) {
-        int deleteRow = 0;
         //비번 동일한지 검증
         AuthorResponseDto authorById = authorService.findAuthorById(scheduleRepository.findMemoByIdOrElseThrow(id).getAuthorId());
         if (!authorById.getPassword().equals(password)) {
