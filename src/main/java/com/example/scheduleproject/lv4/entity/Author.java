@@ -17,7 +17,6 @@ public class Author {
     private LocalDateTime createdDate;
     private LocalDate updatedDate;
 
-
     public Author(String name, String email, String password) {
         this.name = name;
         this.email = email;

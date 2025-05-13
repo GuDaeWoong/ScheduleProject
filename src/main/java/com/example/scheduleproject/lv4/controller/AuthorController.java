@@ -56,7 +56,6 @@ public class AuthorController {
         }
         authorService.deleteAuthor(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     private void handleValidationErrors(BindingResult bindingResult) {
