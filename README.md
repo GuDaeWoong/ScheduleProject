@@ -8,7 +8,7 @@
 ## ⚙️ 시작 가이드
 
 ### ERD
-
+<img src="./img/ERD.png" alt="ERD.png" width="800" />
 
 ## API 문서
 🔗 API 문서(https://documenter.getpostman.com/view/44665083/2sB2jAcUNT)
