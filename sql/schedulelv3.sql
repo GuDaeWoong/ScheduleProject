@@ -1,7 +1,7 @@
 -- 스케줄러 테이블
 CREATE TABLE schedulelv3
 (
-    id BIGINT NOT NULL AUTO_INCREMENT COMMENT '사용자 id',
+    id BIGINT NOT NULL AUTO_INCREMENT COMMENT '스케줄 id',
     authorId BIGINT NOT NULL COMMENT '사용자 id',
     title VARCHAR(100) NOT NULL COMMENT '제목',
     contents TEXT NOT NULL COMMENT '내용',
