@@ -2,8 +2,8 @@
 
 🐥 개발 기간 : 2025.05.11 ~ 2025.05.14
 
-&lt;br>
-&lt;br>
+<br>
+<br>
 
 ## ⚙️ 시작 가이드
 
@@ -11,8 +11,8 @@
 ## API 문서
 https://documenter.getpostman.com/view/44665083/2sB2jAcUNT
 
-&lt;br>
-&lt;br>
+<br>
+<br>
 
 ## Lv 1 : 일정 생성 및 조회 (필수)
 
@@ -47,8 +47,8 @@ https://documenter.getpostman.com/view/44665083/2sB2jAcUNT
   -    작성일은 변경할 수 없으며, 수정일은 수정 완료 시, 수정한 시점으로 변경
   -    선택한 일정 삭제
 
-&lt;br>
-&lt;br>
+<br>
+<br>
 
 ## 2️⃣ 도전 기능 가이드
 ## Lv 3 : 연관 관계 설정 (도전)
