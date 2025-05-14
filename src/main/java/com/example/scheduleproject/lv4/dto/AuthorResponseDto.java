@@ -15,7 +15,7 @@ public class AuthorResponseDto {
     private String email;
     private String password;
     private LocalDateTime createdDate;
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     public AuthorResponseDto(Author author) {
         this.id = author.getId();

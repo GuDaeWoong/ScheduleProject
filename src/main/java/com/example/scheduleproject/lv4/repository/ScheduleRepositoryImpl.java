@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,23 +43,22 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         parameters.put("contents", schedule.getContents());
 
         LocalDateTime now = LocalDateTime.now();
-        LocalDate nowDate = LocalDate.now();
         parameters.put("createdDate", now);
-        parameters.put("updatedDate", nowDate);
+        parameters.put("updatedDate", now);
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(), schedule.getAuthorId(), schedule.getTitle(), schedule.getContents(), now, nowDate);
+        return new ScheduleResponseDto(key.longValue(), schedule.getAuthorId(), schedule.getTitle(), schedule.getContents(), now, now);
     }
 
     @Override
     public List<ScheduleResponseDto> findAllSchedule(String authorId, String updatedDate, int page, int size) {
         int offset = page * size;
         if (authorId != null && updatedDate != null) {
-            return jdbcTemplate.query("select * from schedulelv3 where authorId = ? AND updatedDate = ? order by id limit ? offset ?",
+            return jdbcTemplate.query("select * from schedulelv3 where authorId = ? AND DATE(updatedDate) = ? order by id limit ? offset ?",
                     scheduleRowMapper(), authorId, updatedDate,size,offset);
         } else if (authorId == null && updatedDate != null) {
-            return jdbcTemplate.query("select * from schedulelv3 where updatedDate = ?  order by id limit ? offset ?",
+            return jdbcTemplate.query("select * from schedulelv3 where DATE(updatedDate) = ?  order by id limit ? offset ?",
                     scheduleRowMapper(), updatedDate,size,offset);
         }else if (authorId != null && updatedDate == null) {
             return jdbcTemplate.query("select * from schedulelv3 where authorId = ?  order by id limit ? offset ?",
@@ -92,16 +90,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return new RowMapper<Schedule>() {
             @Override
             public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime createdDate = LocalDateTime.parse(rs.getString("createdDate"), formatter);
-                LocalDate updatedDate = LocalDate.parse(rs.getString("updatedDate"));
                 return new Schedule(
                         rs.getLong("id"),
                         rs.getLong("authorId"),
                         rs.getString("title"),
                         rs.getString("contents"),
-                        createdDate,
-                        updatedDate
+                        rs.getTimestamp("createdDate").toLocalDateTime(),
+                        rs.getTimestamp("updatedDate").toLocalDateTime()
+
                 );
             }
         };
@@ -111,16 +107,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return new RowMapper<ScheduleResponseDto>() {
             @Override
             public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime createdDate = LocalDateTime.parse(rs.getString("createdDate"), formatter);
-                LocalDate updatedDate = LocalDate.parse(rs.getString("updatedDate"));
                 return new ScheduleResponseDto(
                         rs.getLong("id"),
                         rs.getLong("authorId"),
                         rs.getString("title"),
                         rs.getString("contents"),
-                        createdDate,
-                        updatedDate
+                        rs.getTimestamp("createdDate").toLocalDateTime(),
+                        rs.getTimestamp("updatedDate").toLocalDateTime()
                 );
             }
         };

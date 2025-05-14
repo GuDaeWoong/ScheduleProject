@@ -3,7 +3,6 @@ package com.example.scheduleproject.lv4.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +15,7 @@ public class Schedule {
     private String title;
     private String contents;
     private LocalDateTime createdDate;
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     public Schedule(Long authorId, String title, String contents) {
         this.authorId = authorId;

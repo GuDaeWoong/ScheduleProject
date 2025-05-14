@@ -12,9 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +39,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         parameters.put("email", author.getEmail());
         parameters.put("password", author.getPassword());
         LocalDateTime now = LocalDateTime.now();
-        LocalDate nowDate = LocalDate.now();
         parameters.put("createdDate", now);
-        parameters.put("updatedDate", nowDate);
+        parameters.put("updatedDate", now);
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new AuthorResponseDto(key.longValue(), author.getName(), author.getEmail(), author.getPassword(), now, nowDate);
+        return new AuthorResponseDto(key.longValue(), author.getName(), author.getEmail(), author.getPassword(), now, now
+        );
     }
 
     @Override
@@ -80,16 +78,14 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         return new RowMapper<Author>() {
             @Override
             public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime createdDate = LocalDateTime.parse(rs.getString("createdDate"),formatter);
-                LocalDate updatedDate = LocalDate.parse(rs.getString("updatedDate"));
                 return new Author(
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        createdDate,
-                        updatedDate
+                        rs.getTimestamp("createdDate").toLocalDateTime(),
+                        rs.getTimestamp("updatedDate").toLocalDateTime()
+
                 );
             }
         };
@@ -99,16 +95,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         return new RowMapper<AuthorResponseDto>() {
             @Override
             public AuthorResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime createdDate = LocalDateTime.parse(rs.getString("createdDate"),formatter);
-                LocalDate updatedDate = LocalDate.parse(rs.getString("updatedDate"));
                 return new AuthorResponseDto(
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        createdDate,
-                        updatedDate
+                        rs.getTimestamp("createdDate").toLocalDateTime(),
+                        rs.getTimestamp("updatedDate").toLocalDateTime()
                 );
             }
         };

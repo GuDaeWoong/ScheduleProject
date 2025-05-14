@@ -16,7 +16,7 @@ public class ScheduleResponseDto {
     private String title;
     private String contents;
     private LocalDateTime createdDate;
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
